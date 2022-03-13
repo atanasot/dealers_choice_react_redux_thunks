@@ -31,7 +31,7 @@ Model.belongsTo(Manufacturer);
 Manufacturer.hasMany(Model);
 
 const randomManufacturerId = () => {
-  return Math.ceil(Math.random() * 3);
+  return Math.ceil(Math.random() * 4);
 };
 
 const syncAndSeed = async () => {
@@ -39,6 +39,7 @@ const syncAndSeed = async () => {
   // seeding Munufacturer
   await Promise.all(
     [
+      faker.vehicle.manufacturer(),
       faker.vehicle.manufacturer(),
       faker.vehicle.manufacturer(),
       faker.vehicle.manufacturer(),
@@ -61,4 +62,5 @@ const syncAndSeed = async () => {
 
 module.exports = {
   syncAndSeed,
+  models: {Manufacturer, Model}
 };
