@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import axios from "axios";
 import Manufacturers from "./Manufacturers";
-import { Provider } from "react-redux"; //makes Redux store available to the rest of app
+import { Provider, connect } from "react-redux"; //makes Redux store available to the rest of app
 import store from "./store"; //this is the file where we set up the Redux store
-import connect from "./connect";
+
 
 class _App extends React.Component {
   constructor() {
@@ -46,7 +46,10 @@ class _App extends React.Component {
   }
 }
 
-const App = connect(_App)
+const mapStateToProps = (state) => state   //we dont call this function. It always gets called with state and should return {}
+
+
+const App = connect(mapStateToProps)(_App)  //needs mapStateToProps
 
 ReactDom.render(
   <Provider store={store}>

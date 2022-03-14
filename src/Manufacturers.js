@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Models from "./Models";
 import store from "./store";
-import connect from "./connect";
+import {connect} from "react-redux";
 
 // method connect automatically subscribes and helps props getting passed in func
 //pass in  component in connect
@@ -21,4 +21,6 @@ const Manufacturers = ({ cars }) => {
   );
 };
 
-export default connect(Manufacturers);
+const mapStateToProps = ({cars}) => ({cars})  //passes the state as props // need provider component //maybe this should be state???
+
+export default connect(mapStateToProps)(Manufacturers);
