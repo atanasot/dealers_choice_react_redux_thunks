@@ -2,36 +2,73 @@ import React, { Component } from "react";
 import Models from "./Models";
 import store from "./store";
 
-class Manufacturers extends Component {
-  constructor() {
-    super();
-    this.state = {
-      cars: store.getState().cars,
-    };
-  }
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(() => {
-      this.setState({
-        cars: store.getState().cars,
-      });
-    });
-  }
-  render() {
-    const { cars } = this.state;
-    return (
-      <ul>
-        {cars.map((car) => (
-          <li key={car.id}>
-            {car.name}
-            <Models car={car} />
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
+// class Manufacturers extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       cars: store.getState().cars,
+//     };
+//   }
+//   componentWillUnmount() {
+//     this.unsubscribe();
+//   }
+//   componentDidMount() {
+//     this.unsubscribe = store.subscribe(() => {
+//       this.setState({
+//         cars: store.getState().cars,
+//       });
+//     });
+//   }
+//   render() {
+//     const { cars } = this.state;
+//     return (
+//       <ul>
+//         {cars.map((car) => (
+//           <li key={car.id}>
+//             {car.name}
+//             <Models car={car} />
+//           </li>
+//         ))}
+//       </ul>
+//     );
+//   }
+// }
 
-export default Manufacturers;
+// method connect automatically subscribes and helps props getting passed in func
+//pass in  component in connect
+// dynamically creating a class
+const connect = (BaseComponent) => {
+  return class Connected extends Component {
+    constructor() {
+      super();
+      this.state = store.getState();
+    }
+    componentWillUnmount() {
+      this.unsubscribe();
+    }
+    componentDidMount() {
+      this.unsubscribe = store.subscribe(() => {
+        this.setState(store.getState());
+      });
+    }
+    render() {
+      console.log(this.state);
+      return <BaseComponent {...this.state} />;
+    }
+  };
+};
+
+const Manufacturers = ({ cars = [] }) => {
+  return (
+    <ul>
+      {cars.map((car) => (
+        <li key={car.id}>
+          {car.name}
+          <Models car={car} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default connect(Manufacturers);
