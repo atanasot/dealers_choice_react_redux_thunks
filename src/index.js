@@ -4,21 +4,20 @@ import axios from "axios";
 import Manufacturers from "./Manufacturers";
 import { Provider } from "react-redux"; //makes Redux store available to the rest of app
 import store from "./store"; //this is the file where we set up the Redux store
+import connect from "./connect";
 
-class App extends React.Component {
+class _App extends React.Component {
   constructor() {
     super();
-    this.state = { ...store.getState() }; //this is the store's state
+    this.state = { }; //this is the store's state // maybe change this???
   }
+  //this.state = {...store.getState()}
 
   async componentDidMount() {
     try {
       const cars = (await axios.get("/api/cars")).data;
 
-      //redux subscribe
-      store.subscribe(() => {
-        this.setState(store.getState());
-      });
+
 
       store.dispatch({
         type: "LOAD_CARS",
@@ -34,8 +33,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { cars, loading } = this.state;
-    //const cars = this.state.cars;
+    const { cars, loading } = this.props;
+    console.log(this.props)
+    //loading = this.props 
     if (loading) return <h2>Loading...</h2>;
     return (
       <div>
@@ -45,6 +45,8 @@ class App extends React.Component {
     );
   }
 }
+
+const App = connect(_App)
 
 ReactDom.render(
   <Provider store={store}>
