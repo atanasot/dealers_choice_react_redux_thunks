@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import store from "./store";
-import connect from "./connect";
+import { connect } from "react-redux";
 
 // class Models extends Component {
 //   constructor() {
@@ -31,28 +31,38 @@ import connect from "./connect";
 //   }
 // }
 
+const Models = ({car}) => {
+    //console.log(this.props)   //props and this.props is undefined
+    console.log(car)
+    return (
+      <ul>
+        {car.models.map((model) => (
+          <li key={model.id}>{model.name}</li>
+        ))}
+      </ul>
+    );
+}
+
+const mapStateToProps = (state) => state  //car is an obj here
+
+export default connect(mapStateToProps)(Models);
+
+
+
+
+
+
+//****************this is working *********************/
 // const Models = (props) => {
-//     console.log(props.cars)
-//     return (
-//       <ul>
-//         {car.models.map((model) => (
-//           <li key={model.id}>{model.name}</li>
-//         ))}
-//       </ul>
-//     );
-// }
+//     console.log(props)  //we get a sincle model
+//   //console.log(props.car)  here props in an object
+//   return (
+//     <ul>
+//       {props.car.models.map((model) => (
+//         <li key={model.id}>{model.name}</li>
+//       ))}
+//     </ul>
+//   );
+// };
 
-// export default connect(Models);
-
-const Models = (props) => {
-  //console.log(props.car)  here props in an object
-  return (
-    <ul>
-      {props.car.models.map((model) => (
-        <li key={model.id}>{model.name}</li>
-      ))}
-    </ul>
-  );
-};
-
-export default Models;
+// export default Models;

@@ -3,9 +3,11 @@ const app = express();
 const path = require('path');
 const { syncAndSeed, models: {Manufacturer, Model} } = require('./db')
 
+//Middleware
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-//returning 
+//app.use(express.json()) //for post??? from a form
+//returning html file
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 
 const port = process.env.PORT || 3000;
@@ -28,6 +30,15 @@ app.get('/api/cars', async(req, res, next) => {
         })
         res.send(cars)
     } catch (err) {
+        next(err)
+    }
+})
+
+app.post('/api/cars', async(req, res, next) => {
+    try {
+        res.status(201).send(await Model.createRandom())
+    } 
+    catch (err) {
         next(err)
     }
 })
