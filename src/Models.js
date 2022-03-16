@@ -33,7 +33,7 @@ import { connect } from "react-redux";
 
 const Models = ({ manufacturer }) => {
   //console.log(this.props)   //props and this.props is undefined
-  console.log(manufacturer);
+  //console.log(manufacturer);
   return (
     <ul>
       {manufacturer.models.map((model) => (

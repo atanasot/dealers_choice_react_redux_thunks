@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Models from "./Models";
 import store, { createRandomCar } from "./store";
 import { connect } from "react-redux";
-import axios from "axios";
+
 
 // method connect automatically subscribes and helps props getting passed in func
 //pass in  component in connect
@@ -27,6 +27,7 @@ const _Manufacturers = ({ manufacturers, createCar }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createCar: () => dispatch(createRandomCar()), //coming form store
+    //deleteCar: () => dispatch(deleteModel()) 
   };
 };
 

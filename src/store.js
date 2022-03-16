@@ -6,12 +6,15 @@ import axios from "axios";
 // Action constants
 const LOADED = "LOADED";
 const LOAD_MANUFACTURERS = "LOAD_MANUFACTURERS";
+const CREATE_CAR = "CREATE_CAR"
+
+// Separated Reducers
 
 const carsReducer = (state = [], action) => {
   if (action.type === LOAD_MANUFACTURERS) {
     state = action.manufacturers;
   }
-  if (action.type === "CREATE_CAR") {
+  if (action.type === CREATE_CAR) {
     state = state.map((manufacturer) => {
       if (manufacturer.id === action.randomCar.manufacturerId) {
         manufacturer.models = manufacturer.models.concat(action.randomCar);
@@ -29,25 +32,19 @@ const carsReducer = (state = [], action) => {
 //   }
 // };
 
-//thunks
+//********************thunks******************************
 
 export const fetchAllManufacturers = () => {
   return async (dispatch) => {
     const manufacturers = (await axios.get("/api/manufacturers")).data;
-    dispatch({
-      type: LOAD_MANUFACTURERS,
-      manufacturers,
-    });
+    dispatch(loadManufacturers(manufacturers));
   };
 };
 
 export const createRandomCar = () => {
   return async (dispatch) => {
     const randomCar = (await axios.post("/api/cars")).data;
-    dispatch({
-      type: "CREATE_CAR",
-      randomCar,
-    });
+    dispatch(createCarAction(randomCar));
   };
 };
 
@@ -73,7 +70,7 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunks));
 
-// Action creators
+// ***********************Action creators************************* -- they return obj
 const loaded = () => {
   return {
     type: LOADED,
@@ -87,5 +84,12 @@ const loadManufacturers = (manufacturers) => {
   };
 };
 
+const createCarAction = (randomCar) => {
+  return {
+    type: CREATE_CAR,
+    randomCar
+  }
+}
+
 export default store;
-export { loaded, loadManufacturers };
+//export { loaded, loadManufacturers };
