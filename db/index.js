@@ -35,7 +35,10 @@ const randomManufacturerId = () => {
 };
 
 Model.createRandom = function () {
-  return this.create({ name: faker.vehicle.model(), manufacturerId: randomManufacturerId() });
+  return this.create({
+    name: faker.vehicle.model(),
+    manufacturerId: randomManufacturerId(),
+  });
 };
 
 const syncAndSeed = async () => {

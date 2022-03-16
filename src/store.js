@@ -1,47 +1,49 @@
-
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import loggerMiddleware from "redux-logger";
 import thunks from "redux-thunk";
 import axios from "axios";
 
-
 // Action constants
 const LOADED = "LOADED";
-const LOAD_CARS = "LOAD_CARS";
+const LOAD_MANUFACTURERS = "LOAD_MANUFACTURERS";
 
 const carsReducer = (state = [], action) => {
-  if (action.type === LOAD_CARS) {
-    state = action.cars;
+  if (action.type === LOAD_MANUFACTURERS) {
+    state = action.manufacturers;
   }
   if (action.type === "CREATE_CAR") {
-    state = [...state, action.randomCar];
+    state = state.map((manufacturer) => {
+      if (manufacturer.id === action.randomCar.manufacturerId) {
+        manufacturer.models = manufacturer.models.concat(action.randomCar);
+      }
+      return manufacturer;
+    });
   }
   return state;
 };
 
-const loadingReducer = (state = true, action) => {
-  if (action.type === LOADED) {
-    state = false;
-  }
-};
-
+//????????
+// const loadingReducer = (state = true, action) => {
+//   if (action.type === LOADED) {
+//     state = false;
+//   }
+// };
 
 //thunks
 
-export const fetchAllCars = () => {
+export const fetchAllManufacturers = () => {
   return async (dispatch) => {
-    const cars = (await axios.get("/api/cars")).data;
+    const manufacturers = (await axios.get("/api/manufacturers")).data;
     dispatch({
-      type: LOAD_CARS,
-      cars,
+      type: LOAD_MANUFACTURERS,
+      manufacturers,
     });
   };
 };
 
-
 export const createRandomCar = () => {
   return async (dispatch) => {
-    const randomCar = (await axios.post("/api/cars")).data; 
+    const randomCar = (await axios.post("/api/cars")).data;
     dispatch({
       type: "CREATE_CAR",
       randomCar,
@@ -49,13 +51,12 @@ export const createRandomCar = () => {
   };
 };
 
-
 //this is the reducer
 // const store = createStore((state = initialState, action) => {
 //   if (action.type === LOADED) {
 //     state = { ...state, loading: false };
 //   }
-//   if (action.type === LOAD_CARS) {
+//   if (action.type === LOAD_MANUFACTURERS) {
 //     state = { ...state, cars: action.cars };
 //   }
 //   if (action.type === 'CREATE_CAR') {
@@ -65,17 +66,12 @@ export const createRandomCar = () => {
 //   return state;
 // });
 
-
 const reducer = combineReducers({
-  cars: carsReducer,
+  manufacturers: carsReducer,
   //loading: loadingReducer
-})
+});
 
-const store = createStore(
-  reducer,
-  applyMiddleware(loggerMiddleware, thunks)
-);
-
+const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunks));
 
 // Action creators
 const loaded = () => {
@@ -84,12 +80,12 @@ const loaded = () => {
   };
 };
 
-const loadCars = (cars) => {
+const loadManufacturers = (manufacturers) => {
   return {
-    type: LOAD_CARS,
-    cars,
+    type: LOAD_MANUFACTURERS,
+    manufacturers,
   };
 };
 
 export default store;
-export { loaded, loadCars };
+export { loaded, loadManufacturers };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Models from "./Models";
-import store, {createRandomCar} from "./store";
+import store, { createRandomCar } from "./store";
 import { connect } from "react-redux";
 import axios from "axios";
 
@@ -8,7 +8,7 @@ import axios from "axios";
 //pass in  component in connect
 // dynamically creating a class
 
-const _Manufacturers = ({ cars, createCar }) => {
+const _Manufacturers = ({ manufacturers, createCar }) => {
   //console.log(createCar()) smt is wrong here
   //pass in CreateCar
   //console.log(sayHi())
@@ -16,10 +16,10 @@ const _Manufacturers = ({ cars, createCar }) => {
     <div>
       <button onClick={createCar}>Add Car</button>
       <ul>
-        {cars.map((car) => (
-          <li key={car.id}>
-            {car.name}
-            <Models car={car} />
+        {manufacturers.map((manufacturer) => (
+          <li key={manufacturer.id}>
+            {manufacturer.name}
+            <Models manufacturer={manufacturer} />
           </li>
         ))}
       </ul>
@@ -29,14 +29,17 @@ const _Manufacturers = ({ cars, createCar }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createCar: () => dispatch(createRandomCar()) //coming form store
+    createCar: () => dispatch(createRandomCar()), //coming form store
   };
 };
 
-const mapStateToProps = ({cars}) => ({cars}); //passes the state as props // need provider component //maybe this should be state???
+const mapStateToProps = ({ manufacturers }) => ({ manufacturers }); //passes the state as props // need provider component //maybe this should be state???
 
-const Manufacturers = connect(mapStateToProps, mapDispatchToProps)(_Manufacturers)
+const Manufacturers = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(_Manufacturers);
 
 //export default connect(mapStateToProps, mapDispatchToProps)(Manufacturers); //pass in mapStateToProps
 
-export default Manufacturers
+export default Manufacturers;

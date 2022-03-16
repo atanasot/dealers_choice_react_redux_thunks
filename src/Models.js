@@ -31,26 +31,21 @@ import { connect } from "react-redux";
 //   }
 // }
 
-const Models = ({car}) => {
-    //console.log(this.props)   //props and this.props is undefined
-    console.log(car)
-    return (
-      <ul>
-        {car.models.map((model) => (
-          <li key={model.id}>{model.name}</li>
-        ))}
-      </ul>
-    );
-}
+const Models = ({ manufacturer }) => {
+  //console.log(this.props)   //props and this.props is undefined
+  console.log(manufacturer);
+  return (
+    <ul>
+      {manufacturer.models.map((model) => (
+        <li key={model.id}>{model.name}</li>
+      ))}
+    </ul>
+  );
+};
 
-const mapStateToProps = (state) => state  //car is an obj here
+const mapStateToProps = (state) => state; //manufacturer is an obj here
 
 export default connect(mapStateToProps)(Models);
-
-
-
-
-
 
 //****************this is working *********************/
 // const Models = (props) => {
