@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import store from "./store";
+import store, {deleteModel} from "./store";
 import { connect } from "react-redux";
 
 // class Models extends Component {
@@ -31,17 +31,25 @@ import { connect } from "react-redux";
 //   }
 // }
 
-const Models = ({ manufacturer }) => {
-  //console.log(this.props)   //props and this.props is undefined
-  //console.log(manufacturer);
+const Models = ({ manufacturer, deleteCar }) => {
+    //console.log(deleteCar)
+    console.log(manufacturer.models[0].id)
   return (
     <ul>
       {manufacturer.models.map((model) => (
-        <li key={model.id}>{model.name}</li>
+        <li onClick={() => console.log(model.id)} key={model.id}>{model.name} </li>
       ))}
     </ul>
   );
 };
+
+//deleteCar(model.id)
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         deleteCar: (model) => dispatch(deleteModel(model))  
+//     }
+// }
 
 const mapStateToProps = (state) => state; 
 

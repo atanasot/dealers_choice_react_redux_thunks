@@ -25,6 +25,18 @@ const start = async () => {
 };
 
 //Routes
+
+app.delete('/api/manufacturers/models/:id', async(req, res, next) => {
+    try {
+        //console.log(req.params)
+        const model = await Model.findByPk(req.params.id)
+        await model.destroy()
+        res.sendStatus(204)  //No content
+    } catch (err) {
+        next (err)
+    }
+})
+
 app.get("/api/manufacturers", async (req, res, next) => {
   try {
     const manufacturers = await Manufacturer.findAll({

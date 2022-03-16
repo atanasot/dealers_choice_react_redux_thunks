@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 //pass in  component in connect
 // dynamically creating a class
 
-const _Manufacturers = ({ manufacturers, createCar }) => {
+const _Manufacturers = ({ manufacturers, createCar}) => {
   return (
     <div>
       <button onClick={createCar}>Add Car</button>
@@ -26,8 +26,7 @@ const _Manufacturers = ({ manufacturers, createCar }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createCar: () => dispatch(createRandomCar()), //coming form store
-    //deleteCar: () => dispatch(deleteModel()) 
+    createCar: () => dispatch(createRandomCar()), //coming from store
   };
 };
 
