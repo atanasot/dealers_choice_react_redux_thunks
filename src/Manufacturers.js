@@ -9,9 +9,6 @@ import axios from "axios";
 // dynamically creating a class
 
 const _Manufacturers = ({ manufacturers, createCar }) => {
-  //console.log(createCar()) smt is wrong here
-  //pass in CreateCar
-  //console.log(sayHi())
   return (
     <div>
       <button onClick={createCar}>Add Car</button>

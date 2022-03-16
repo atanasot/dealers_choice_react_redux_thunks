@@ -9,7 +9,7 @@ const {
 //Middleware
 app.use("/dist", express.static(path.join(__dirname, "dist")));
 
-//app.use(express.json()) //for post??? from a form
+//app.use(express.json()) //for post??? for a form
 //returning html file
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 

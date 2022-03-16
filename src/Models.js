@@ -43,7 +43,7 @@ const Models = ({ manufacturer }) => {
   );
 };
 
-const mapStateToProps = (state) => state; //manufacturer is an obj here
+const mapStateToProps = (state) => state; 
 
 export default connect(mapStateToProps)(Models);
 
