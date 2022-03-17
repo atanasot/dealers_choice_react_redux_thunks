@@ -33,7 +33,7 @@ const carsReducer = (state = [], action) => {
         acc.push(manufacturer);
         return acc;
       } else {
-        acc.push(manufacturer); 
+        acc.push(manufacturer);
         return acc;
       }
     }, []);
@@ -41,12 +41,13 @@ const carsReducer = (state = [], action) => {
   return state;
 };
 
-//????????
-// const loadingReducer = (state = true, action) => {
-//   if (action.type === LOADED) {
-//     state = false;
-//   }
-// };
+//Loading reducer
+const loadingReducer = (state = true, action) => {
+  if (action.type === LOADED) {
+    state = action.loading;
+  }
+  return state;
+};
 
 //********************thunks******************************
 
@@ -65,41 +66,33 @@ export const createRandomCar = () => {
 };
 
 export const deleteModel = (modelId) => {
-  //console.log('heyyy')
   return async (dispatch) => {
     await axios.delete(`/api/manufacturers/models/${modelId}`);
     dispatch(deleteCarAction(modelId));
   };
 };
 
-//this is the reducer
-// const store = createStore((state = initialState, action) => {
-//   if (action.type === LOADED) {
-//     state = { ...state, loading: false };
-//   }
-//   if (action.type === LOAD_MANUFACTURERS) {
-//     state = { ...state, cars: action.cars };
-//   }
-//   if (action.type === 'CREATE_CAR') {
-//     state = {...state, cars: [...state.cars, action.car]}
-//   }
+export const loadingThunk = () => {
+  return async (dispatch) => {
+    dispatch(loaded());
+  };
+};
 
-//   return state;
-// });
-
+// Combine reducers
 const reducer = combineReducers({
   manufacturers: carsReducer,
-  //loading: loadingReducer
+  loading: loadingReducer,
 });
 
 const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunks));
 
 // ***********************Action creators************************* -- they return obj
-// const loaded = () => {
-//   return {
-//     type: LOADED,
-//   };
-// };
+const loaded = () => {
+  return {
+    type: LOADED,
+    loading: false,
+  };
+};
 
 const loadManufacturers = (manufacturers) => {
   return {
@@ -124,6 +117,3 @@ const deleteCarAction = (modelId) => {
 };
 
 export default store;
-//export { loaded, loadManufacturers };
-
-window.store = store;

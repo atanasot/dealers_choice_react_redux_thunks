@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Models from "./Models";
 import store, { createRandomCar } from "./store";
 import { connect } from "react-redux";
@@ -30,13 +30,11 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ manufacturers }) => ({ manufacturers }); //passes the state as props // need provider component //maybe this should be state???
+const mapStateToProps = ( state ) => ( state ); //passes the state as props // need provider component //maybe this should be state???
 
 const Manufacturers = connect(
   mapStateToProps,
   mapDispatchToProps
 )(_Manufacturers);
-
-//export default connect(mapStateToProps, mapDispatchToProps)(Manufacturers); //pass in mapStateToProps
 
 export default Manufacturers;
