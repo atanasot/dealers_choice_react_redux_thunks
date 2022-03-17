@@ -5,8 +5,6 @@ const sequelize = new Sequelize(
 );
 const faker = require("faker");
 
-// Model
-
 const Manufacturer = sequelize.define("manufacturer", {
   name: {
     type: STRING,
@@ -23,9 +21,6 @@ const Model = sequelize.define("model", {
     allowNull: false,
   },
 });
-
-// const car = faker.vehicle.model()
-// console.log(car)
 
 Model.belongsTo(Manufacturer);
 Manufacturer.hasMany(Model);
@@ -44,7 +39,6 @@ Model.createRandom = function () {
 const syncAndSeed = async () => {
   try {
     await sequelize.sync({ force: true });
-    // seeding Munufacturer
     await Promise.all(
       [
         faker.vehicle.manufacturer(),
@@ -53,7 +47,6 @@ const syncAndSeed = async () => {
         faker.vehicle.manufacturer(),
       ].map((name) => Manufacturer.create({ name }))
     );
-    // Seeding Model
     await Promise.all(
       Array(10)
         .fill(0)

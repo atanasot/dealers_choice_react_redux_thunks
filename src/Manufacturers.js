@@ -3,16 +3,11 @@ import Models from "./Models";
 import store, { createRandomCar } from "./store";
 import { connect } from "react-redux";
 
-
-// method connect automatically subscribes and helps props getting passed in func
-//pass in  component in connect
-// dynamically creating a class
-
-const _Manufacturers = ({ manufacturers, createCar}) => {
+const _Manufacturers = ({ manufacturers, createCar }) => {
   return (
     <div>
       <button onClick={createCar}>Add Car</button>
-      <ul>
+      <ul className = 'ulCars'>
         {manufacturers.map((manufacturer) => (
           <li key={manufacturer.id}>
             {manufacturer.name}
@@ -26,11 +21,11 @@ const _Manufacturers = ({ manufacturers, createCar}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createCar: () => dispatch(createRandomCar()), //coming from store
+    createCar: () => dispatch(createRandomCar()),
   };
 };
 
-const mapStateToProps = ( state ) => ( state ); //passes the state as props // need provider component //maybe this should be state???
+const mapStateToProps = (state) => state;
 
 const Manufacturers = connect(
   mapStateToProps,

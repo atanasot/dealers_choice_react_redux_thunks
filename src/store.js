@@ -10,7 +10,6 @@ const CREATE_CAR = "CREATE_CAR";
 const DELETE_CAR = "DELETE_CAR";
 
 // Separated Reducers
-
 const carsReducer = (state = [], action) => {
   if (action.type === LOAD_MANUFACTURERS) {
     state = action.manufacturers;
@@ -26,7 +25,6 @@ const carsReducer = (state = [], action) => {
   if (action.type === DELETE_CAR) {
     return state.reduce((acc, manufacturer) => {
       if (manufacturer.models.length) {
-        // if manufacturer has models, filter them and push them into acc
         manufacturer.models = manufacturer.models.filter(
           (model) => model.id !== action.modelId
         );
@@ -41,7 +39,6 @@ const carsReducer = (state = [], action) => {
   return state;
 };
 
-//Loading reducer
 const loadingReducer = (state = true, action) => {
   if (action.type === LOADED) {
     state = action.loading;
@@ -60,7 +57,7 @@ export const fetchAllManufacturers = () => {
 
 export const createRandomCar = () => {
   return async (dispatch) => {
-    const randomCar = (await axios.post("/api/cars")).data;
+    const randomCar = (await axios.post("/api/manufacturers")).data;
     dispatch(createCarAction(randomCar));
   };
 };
@@ -86,7 +83,7 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunks));
 
-// ***********************Action creators************************* -- they return obj
+// ***********************Action creators*************************
 const loaded = () => {
   return {
     type: LOADED,
@@ -109,7 +106,6 @@ const createCarAction = (randomCar) => {
 };
 
 const deleteCarAction = (modelId) => {
-  console.log("IN DELETE CAR ACTION");
   return {
     type: DELETE_CAR,
     modelId,

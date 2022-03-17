@@ -1,0 +1,50 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: lavender;
+  padding-left: 40px;
+}
+
+h1 {
+  font-style: bold;
+  color: hotpink;
+  margin: 40px;
+  font-style: italic;
+  text-align: center;
+}
+
+button {
+  background-color: purple;
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.ulCars {
+  font-weight: bold;
+  font-size: 20px;
+  color: rgb(78, 70, 70);
+}
+
+.liCars {
+  font-weight: normal;
+  font-size: 18px;
+  color: black;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+}
+
+a {
+  color: purple;
+}
