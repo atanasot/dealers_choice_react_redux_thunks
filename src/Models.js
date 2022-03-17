@@ -33,27 +33,27 @@ import { connect } from "react-redux";
 
 const Models = ({ manufacturer, deleteCar }) => {
     //console.log(deleteCar)
-    console.log(manufacturer.models[0].id)
+    //console.log(manufacturer.models[0].id)
   return (
     <ul>
       {manufacturer.models.map((model) => (
-        <li onClick={() => console.log(model.id)} key={model.id}>{model.name} </li>
+        <li onClick={() => deleteCar(model.id)} key={model.id}>{model.name} </li>
       ))}
     </ul>
   );
 };
 
-//deleteCar(model.id)
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         deleteCar: (model) => dispatch(deleteModel(model))  
-//     }
-// }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteCar: (modelId) => dispatch(deleteModel(modelId))  
+    }
+}
 
 const mapStateToProps = (state) => state; 
 
-export default connect(mapStateToProps)(Models);
+export default connect(mapStateToProps, mapDispatchToProps)(Models);
 
 //****************this is working *********************/
 // const Models = (props) => {

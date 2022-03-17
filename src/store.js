@@ -6,8 +6,8 @@ import axios from "axios";
 // Action constants
 const LOADED = "LOADED";
 const LOAD_MANUFACTURERS = "LOAD_MANUFACTURERS";
-const CREATE_CAR = "CREATE_CAR"
-const DELETE_CAR = "DELETE_CAR"
+const CREATE_CAR = "CREATE_CAR";
+const DELETE_CAR = "DELETE_CAR";
 
 // Separated Reducers
 
@@ -25,11 +25,18 @@ const carsReducer = (state = [], action) => {
   }
   if (action.type === DELETE_CAR) {
     return state.reduce((acc, manufacturer) => {
-      if (manufacturer.models.length) {   // if manufacturer has models, filter them and push them into acc
-        acc.push(manufacturer.models.filter(model => model.id !== action.model.id))
+      if (manufacturer.models.length) {
+        // if manufacturer has models, filter them and push them into acc
+        manufacturer.models = manufacturer.models.filter(
+          (model) => model.id !== action.modelId
+        );
+        acc.push(manufacturer);
+        return acc;
+      } else {
+        acc.push(manufacturer); 
+        return acc;
       }
-      return acc
-    },[])
+    }, []);
   }
   return state;
 };
@@ -57,12 +64,13 @@ export const createRandomCar = () => {
   };
 };
 
-export const deleteModel = (model) => {
-  return async(dispatch) => {
-    await axios.delete(`/api/manufacturers/models/${model.id}`)
-    dispatch(deleteCarAction(model))
-  }
-}
+export const deleteModel = (modelId) => {
+  //console.log('heyyy')
+  return async (dispatch) => {
+    await axios.delete(`/api/manufacturers/models/${modelId}`);
+    dispatch(deleteCarAction(modelId));
+  };
+};
 
 //this is the reducer
 // const store = createStore((state = initialState, action) => {
@@ -87,11 +95,11 @@ const reducer = combineReducers({
 const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunks));
 
 // ***********************Action creators************************* -- they return obj
-const loaded = () => {
-  return {
-    type: LOADED,
-  };
-};
+// const loaded = () => {
+//   return {
+//     type: LOADED,
+//   };
+// };
 
 const loadManufacturers = (manufacturers) => {
   return {
@@ -103,16 +111,19 @@ const loadManufacturers = (manufacturers) => {
 const createCarAction = (randomCar) => {
   return {
     type: CREATE_CAR,
-    randomCar
-  }
-}
+    randomCar,
+  };
+};
 
-const deleteCarAction = (model) => {
+const deleteCarAction = (modelId) => {
+  console.log("IN DELETE CAR ACTION");
   return {
     type: DELETE_CAR,
-    model
-  }
-}
+    modelId,
+  };
+};
 
 export default store;
 //export { loaded, loadManufacturers };
+
+window.store = store;
